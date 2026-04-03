@@ -1,0 +1,142 @@
+// Mock data for LogiFlow AI development and demo purposes
+
+import { DeliveryPoint, Route, InventoryItem, PrioritySuggestion } from './types';
+
+export const MOCK_DELIVERY_POINTS: DeliveryPoint[] = [
+  {
+    id: 'dp-001',
+    name: 'Point Alpha — City Centre',
+    coordinates: { lat: 50.45, lng: 30.52 },
+    priority: 3,
+    stock_level: 12,
+    stock_capacity: 500,
+    demand_ratio: 0.024,
+    last_delivery_at: new Date(Date.now() - 7.5 * 3_600_000).toISOString(),
+    score: 14.7,
+  },
+  {
+    id: 'dp-002',
+    name: 'Point Beta — Industrial Zone',
+    coordinates: { lat: 50.48, lng: 30.55 },
+    priority: 2,
+    stock_level: 85,
+    stock_capacity: 500,
+    demand_ratio: 0.17,
+    last_delivery_at: new Date(Date.now() - 3 * 3_600_000).toISOString(),
+    score: 6.4,
+  },
+  {
+    id: 'dp-003',
+    name: 'Point Gamma — Airport District',
+    coordinates: { lat: 50.40, lng: 30.45 },
+    priority: 1,
+    stock_level: 320,
+    stock_capacity: 500,
+    demand_ratio: 0.64,
+    last_delivery_at: new Date(Date.now() - 1.5 * 3_600_000).toISOString(),
+    score: 2.1,
+  },
+  {
+    id: 'dp-004',
+    name: 'Point Delta — Riverside',
+    coordinates: { lat: 50.43, lng: 30.58 },
+    priority: 3,
+    stock_level: 8,
+    stock_capacity: 300,
+    demand_ratio: 0.027,
+    last_delivery_at: new Date(Date.now() - 9 * 3_600_000).toISOString(),
+    score: 18.1,
+  },
+  {
+    id: 'dp-005',
+    name: 'Point Epsilon — North Hub',
+    coordinates: { lat: 50.52, lng: 30.50 },
+    priority: 1,
+    stock_level: 245,
+    stock_capacity: 400,
+    demand_ratio: 0.61,
+    last_delivery_at: new Date(Date.now() - 0.5 * 3_600_000).toISOString(),
+    score: 1.1,
+  },
+  {
+    id: 'dp-006',
+    name: 'Point Zeta — South Terminal',
+    coordinates: { lat: 50.38, lng: 30.49 },
+    priority: 2,
+    stock_level: 45,
+    stock_capacity: 400,
+    demand_ratio: 0.11,
+    last_delivery_at: new Date(Date.now() - 4.5 * 3_600_000).toISOString(),
+    score: 9.7,
+  },
+];
+
+export const MOCK_ROUTES: Route[] = [
+  {
+    id: 'rt-001',
+    truck_id: 'T-42',
+    from: 'Warehouse Central',
+    to: 'Point Beta — Industrial Zone',
+    status: 'in_transit',
+    is_ghost: true,
+    redirected_to: 'Point Alpha — City Centre',
+    eta_minutes: 45,
+  },
+  {
+    id: 'rt-002',
+    truck_id: 'T-17',
+    from: 'Warehouse Central',
+    to: 'Point Delta — Riverside',
+    status: 'in_transit',
+    is_ghost: false,
+    redirected_to: null,
+    eta_minutes: 22,
+  },
+  {
+    id: 'rt-003',
+    truck_id: 'T-09',
+    from: 'Warehouse North',
+    to: 'Point Gamma — Airport District',
+    status: 'planned',
+    is_ghost: false,
+    redirected_to: null,
+    eta_minutes: 65,
+  },
+  {
+    id: 'rt-004',
+    truck_id: 'T-55',
+    from: 'Warehouse Central',
+    to: 'Point Zeta — South Terminal',
+    status: 'delivered',
+    is_ghost: false,
+    redirected_to: null,
+    eta_minutes: 0,
+  },
+];
+
+export const MOCK_INVENTORY: InventoryItem[] = MOCK_DELIVERY_POINTS.map((dp) => ({
+  delivery_point_id: dp.id,
+  resource_type: 'fuel',
+  quantity: dp.stock_level,
+  unit: 'liters',
+  updated_at: new Date().toISOString(),
+}));
+
+export const MOCK_SUGGESTIONS: PrioritySuggestion[] = [
+  {
+    action: 'redirect',
+    truck_id: 'T-42',
+    from_destination: 'Point Beta — Industrial Zone',
+    to_destination: 'Point Alpha — City Centre',
+    reason: 'Score delta: +8.3 — Critical stockout imminent at Alpha',
+    require_approval: true,
+  },
+  {
+    action: 'redirect',
+    truck_id: 'T-09',
+    from_destination: 'Point Gamma — Airport District',
+    to_destination: 'Point Delta — Riverside',
+    reason: 'Score delta: +16.0 — Delta at 2.7% stock, 9h since last delivery',
+    require_approval: true,
+  },
+];
